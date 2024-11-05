@@ -1,7 +1,6 @@
 package org.practice;
 
 public interface DBMediator {
-
-    boolean checkForeignKey(int mainKey);
-    //void notify(Table table);
+    void notifyDelete(int id);
+    void notifyUpdate(int oldDepartmentId, int newDepartmentId);
 }
