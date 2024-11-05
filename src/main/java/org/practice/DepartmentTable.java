@@ -41,7 +41,8 @@ public class DepartmentTable{
         Department department = (Department) record;
 
         String disableForeignKeyChecks = "ALTER TABLE student DROP CONSTRAINT student_department_id_fkey;";
-        String enableForeignKeyChecks = "ALTER TABLE student ADD CONSTRAINT student_department_id_fkey FOREIGN KEY (department_id) REFERENCES department(id);";
+        String enableForeignKeyChecks = "ALTER TABLE student ADD CONSTRAINT student_department_id_fkey " +
+                "FOREIGN KEY (department_id) REFERENCES department(id);";
 
         try {
             try (PreparedStatement disableStatement = connection.prepareStatement(disableForeignKeyChecks)) {
