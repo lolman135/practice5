@@ -4,7 +4,7 @@ import java.sql.SQLException;
 
 public class ConcreteMediator implements DBMediator{
 
-    private DepartmentTable departmentTable;
+
     private StudentTable studentTable;
 
     @Override
@@ -23,10 +23,6 @@ public class ConcreteMediator implements DBMediator{
         } catch (SQLException e){
             System.out.println("Error: " + e.getMessage());
         }
-    }
-
-    public void setDepartmentTable(DepartmentTable departmentTable) {
-        this.departmentTable = departmentTable;
     }
 
     public void setStudentTable(StudentTable studentTable) {

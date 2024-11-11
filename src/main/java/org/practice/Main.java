@@ -9,7 +9,6 @@ public class Main {
             ConcreteMediator mediator = new ConcreteMediator();
             DepartmentTable departmentTable = new DepartmentTable(dbConnection.getConnection(), mediator);
             StudentTable studentTable = new StudentTable(dbConnection.getConnection(), mediator);
-            mediator.setDepartmentTable(departmentTable);
             mediator.setStudentTable(studentTable);
 
             Department department1 = new Department("Computer Science", 1);
