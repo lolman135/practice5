@@ -9,7 +9,7 @@ target/
 .idea/jarRepositories.xml
 .idea/compiler.xml
 .idea/libraries/
-out/
+diagrams/
 *.iws
 *.iml
 *.ipr
