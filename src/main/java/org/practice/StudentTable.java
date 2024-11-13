@@ -1,17 +1,12 @@
 package org.practice;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 
 /**
  * The {@code StudentTable} class provides database operations for the {@code Student} table,
  * allowing insertion, deletion by department ID, and updating department IDs.
  */
-public class StudentTable {
-
-    Connection connection;
-    DBMediator mediator;
+public class StudentTable extends Table{
 
     /**
      * Constructs a {@code StudentTable} with the specified database connection and mediator.
@@ -19,8 +14,7 @@ public class StudentTable {
      * @param mediator the mediator to handle notifications.
      */
     public StudentTable(Connection connection, DBMediator mediator) {
-        this.connection = connection;
-        this.mediator = mediator;
+        super(connection, mediator);
     }
 
     /**
@@ -71,5 +65,19 @@ public class StudentTable {
             statement.execute();
             System.out.println("Updated department id for all students: " + oldDepartmentId + " changed to: " + newDepartmentId);
         }
+    }
+
+    public void getForeignKeyById(int id) throws SQLException{
+        Integer foreignKey = null;
+
+        String request =  STR."SELECT department_id FROM student WHERE id = \{id};";
+
+        Statement statement = connection.createStatement();
+        try (ResultSet resultSet = statement.executeQuery(request)){
+            if (resultSet.next()){
+                foreignKey = resultSet.getInt("department_id");
+            }
+        }
+        mediator.notifySendKey(foreignKey, this);
     }
 }

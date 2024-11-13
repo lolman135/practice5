@@ -14,6 +14,7 @@ public class Main {
             DepartmentTable departmentTable = new DepartmentTable(dbConnection.getConnection(), mediator);
             StudentTable studentTable = new StudentTable(dbConnection.getConnection(), mediator);
             mediator.setStudentTable(studentTable);
+            mediator.setDepartmentTable(departmentTable);
 
             Department department1 = new Department("Computer Science", 1);
             Department department2 = new Department("Mathematics", 2);
@@ -29,11 +30,14 @@ public class Main {
             studentTable.insert(student3);
             studentTable.insert(student4);
 
+            System.out.println("\nGetting department id (primary key) by student id (uses foreign key in process):");
+            studentTable.getForeignKeyById(student1.getId());
+
             System.out.println("\nDeleting department with id 1:");
-            departmentTable.delete(1);
+            departmentTable.delete(department1.getId());
 
             System.out.println("\nUpdating department id from 2 to 3:");
-            department2.setId(3);
+            department2.setId(1);
             departmentTable.update(department2, 2);
 
         } catch (SQLException e) {

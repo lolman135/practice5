@@ -9,6 +9,7 @@ import java.sql.SQLException;
 public class ConcreteMediator implements DBMediator{
 
     private StudentTable studentTable;
+    private DepartmentTable departmentTable;
 
     /**
      * Notifies the mediator to delete records in StudentTable by department ID.
@@ -37,12 +38,27 @@ public class ConcreteMediator implements DBMediator{
         }
     }
 
+    @Override
+    public void notifySendKey(int foreignKey, Table table) {
+        if (table instanceof StudentTable){
+            try {
+                departmentTable.checkPrimaryKey(foreignKey);
+            } catch (SQLException e) {
+                System.out.println("Error: " + e.getMessage());
+            }
+        }
+    }
+
     /**
      * Sets the StudentTable instance for this mediator.
      * @param studentTable the StudentTable instance
      */
     public void setStudentTable(StudentTable studentTable) {
         this.studentTable = studentTable;
+    }
+
+    public void setDepartmentTable(DepartmentTable departmentTable) {
+        this.departmentTable = departmentTable;
     }
 }
 

@@ -18,4 +18,6 @@ public interface DBMediator {
      * @param newDepartmentId the new ID.
      */
     void notifyUpdate(int oldDepartmentId, int newDepartmentId);
+
+    void notifySendKey(int foreignKey, Table table);
 }

@@ -1,22 +1,33 @@
 package org.practice;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 
-public class DepartmentTable {
-
-    Connection connection;
-    DBMediator mediator;
-
+public class DepartmentTable extends Table {
     /**
      * Constructs a {@code DepartmentTable} with the specified database connection and mediator.
      * @param connection the database connection.
      * @param mediator the mediator for handling notifications.
      */
     public DepartmentTable(Connection connection, DBMediator mediator) {
-        this.connection = connection;
-        this.mediator = mediator;
+        super(connection, mediator);
+    }
+
+    public void checkPrimaryKey(int foreignKey) throws SQLException{
+        Integer primaryKey = null;
+
+        String request =  STR."SELECT id FROM department WHERE id = \{foreignKey};";
+
+        Statement statement = connection.createStatement();
+        try (ResultSet resultSet = statement.executeQuery(request)){
+            if (resultSet.next()){
+                primaryKey = resultSet.getInt("id");
+                System.out.println(STR."Right connection: student's department id:\{foreignKey}," +
+                        STR."department's id:\{primaryKey}");
+            }
+        } catch (SQLException e){
+            System.out.println("Error: department id of student cannot be " +
+                    "different with real department id");
+        }
     }
 
     /**
