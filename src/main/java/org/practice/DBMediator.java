@@ -19,5 +19,10 @@ public interface DBMediator {
      */
     void notifyUpdate(int oldDepartmentId, int newDepartmentId);
 
+    /**
+     * Notifies the transfer of a foreign key from a target table.
+     * @param foreignKey the foreign key value to send.
+     * @param table the target table where the foreign key receives.
+     */
     void notifySendKey(int foreignKey, Table table);
 }

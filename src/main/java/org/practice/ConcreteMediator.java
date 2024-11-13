@@ -38,6 +38,11 @@ public class ConcreteMediator implements DBMediator{
         }
     }
 
+    /**
+     * Notifies the transfer of a foreign key from a target table.
+     * @param foreignKey the foreign key value to send.
+     * @param table the target table where the foreign key receives.
+     */
     @Override
     public void notifySendKey(int foreignKey, Table table) {
         if (table instanceof StudentTable){
@@ -61,4 +66,3 @@ public class ConcreteMediator implements DBMediator{
         this.departmentTable = departmentTable;
     }
 }
-

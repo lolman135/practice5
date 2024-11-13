@@ -67,10 +67,15 @@ public class StudentTable extends Table{
         }
     }
 
+    /**
+     * Retrieves the foreign key (department ID) for a student by their ID.
+     * @param id the student ID for which the department ID is retrieved.
+     * @throws SQLException if a database access error occurs or the query fails.
+     */
     public void getForeignKeyById(int id) throws SQLException{
         Integer foreignKey = null;
 
-        String request =  STR."SELECT department_id FROM student WHERE id = \{id};";
+        String request =  "SELECT department_id FROM student WHERE id = " + id + ";";
 
         Statement statement = connection.createStatement();
         try (ResultSet resultSet = statement.executeQuery(request)){

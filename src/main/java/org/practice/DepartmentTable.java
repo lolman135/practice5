@@ -12,17 +12,22 @@ public class DepartmentTable extends Table {
         super(connection, mediator);
     }
 
+    /**
+     * Checks if a given foreign key exists as a primary key in the department table.
+     * @param foreignKey the department ID to verify.
+     * @throws SQLException if a database access error occurs or the query fails.
+     */
     public void checkPrimaryKey(int foreignKey) throws SQLException{
         Integer primaryKey = null;
 
-        String request =  STR."SELECT id FROM department WHERE id = \{foreignKey};";
+        String request =  "SELECT id FROM department WHERE id = " + foreignKey + ";";
 
         Statement statement = connection.createStatement();
         try (ResultSet resultSet = statement.executeQuery(request)){
             if (resultSet.next()){
                 primaryKey = resultSet.getInt("id");
-                System.out.println(STR."Right connection: student's department id:\{foreignKey}," +
-                        STR."department's id:\{primaryKey}");
+                System.out.println(String.format("Right connection: student's department " +
+                        "id: %d, department's id: %d", foreignKey, primaryKey));
             }
         } catch (SQLException e){
             System.out.println("Error: department id of student cannot be " +
