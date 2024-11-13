@@ -2,6 +2,10 @@ package org.practice;
 
 import java.sql.SQLException;
 
+/**
+ * Main class to demonstrate interactions between DepartmentTable and StudentTable
+ * through the ConcreteMediator and DBConnection setup.
+ */
 public class Main {
     public static void main(String[] args) {
         try {
@@ -19,9 +23,11 @@ public class Main {
             Student student1 = new Student(101, "Alice", 1);
             Student student2 = new Student(102, "Bob", 1);
             Student student3 = new Student(103, "Charlie", 2);
+            Student student4 = new Student(104, "Michael", 2);
             studentTable.insert(student1);
             studentTable.insert(student2);
             studentTable.insert(student3);
+            studentTable.insert(student4);
 
             System.out.println("\nDeleting department with id 1:");
             departmentTable.delete(1);
