@@ -5,6 +5,7 @@ import java.sql.*;
 /**
  * The {@code StudentTable} class provides database operations for the {@code Student} table,
  * allowing insertion, deletion by department ID, and updating department IDs.
+ * @author Kusosvkyi Kyrylo
  */
 public class StudentTable extends Table{
 
@@ -63,7 +64,8 @@ public class StudentTable extends Table{
             statement.setInt(1, newDepartmentId);
             statement.setInt(2, oldDepartmentId);
             statement.execute();
-            System.out.println("Updated department id for all students: " + oldDepartmentId + " changed to: " + newDepartmentId);
+            System.out.println("Updated department id for all students: " +
+                                oldDepartmentId + " changed to: " + newDepartmentId);
         }
     }
 
@@ -73,7 +75,7 @@ public class StudentTable extends Table{
      * @throws SQLException if a database access error occurs or the query fails.
      */
     public void getForeignKeyById(int id) throws SQLException{
-        Integer foreignKey = null;
+        int foreignKey = -1;
 
         String request =  "SELECT department_id FROM student WHERE id = " + id + ";";
 
@@ -81,6 +83,8 @@ public class StudentTable extends Table{
         try (ResultSet resultSet = statement.executeQuery(request)){
             if (resultSet.next()){
                 foreignKey = resultSet.getInt("department_id");
+            } else{
+                System.out.println("Error: wrong student id!");
             }
         }
         mediator.notifySendKey(foreignKey, this);

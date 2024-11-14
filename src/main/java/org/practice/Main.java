@@ -5,6 +5,7 @@ import java.sql.SQLException;
 /**
  * Main class to demonstrate interactions between DepartmentTable and StudentTable
  * through the ConcreteMediator and DBConnection setup.
+ * @author Kusosvkyi Kyrylo
  */
 public class Main {
     public static void main(String[] args) {
@@ -36,9 +37,10 @@ public class Main {
             System.out.println("\nDeleting department with id 1:");
             departmentTable.delete(department1.getId());
 
-            System.out.println("\nUpdating department id from 2 to 3:");
+            System.out.println("\nUpdating department id from 2 to 1:");
+            int oldDepartmentId = department2.getId();
             department2.setId(1);
-            departmentTable.update(department2, 2);
+            departmentTable.update(department2, oldDepartmentId);
 
         } catch (SQLException e) {
             System.out.println("Database error: " + e.getMessage());

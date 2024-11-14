@@ -3,6 +3,7 @@ package org.practice;
 /**
  * The {@code Department} class represents a department entity with an ID
  * and a name.
+ * @author Kusosvkyi Kyrylo
  */
 public class Department {
     private int id;

@@ -15,6 +15,7 @@ public class Student {
      * @param id the unique ID of the student.
      * @param name the name of the student.
      * @param departmentId the ID of the department associated with the student.
+     * @author Kusosvkyi Kyrylo
      */
     public Student(int id, String name, int departmentId) {
         this.id = id;

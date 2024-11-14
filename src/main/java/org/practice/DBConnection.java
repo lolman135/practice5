@@ -7,6 +7,7 @@ import java.sql.SQLException;
 /**
  * The {@code DBConnection} class establishes and provides a connection
  * to a PostgreSQL database.
+ * @author Kusosvkyi Kyrylo
  */
 public class DBConnection {
 

@@ -5,6 +5,7 @@ import java.sql.SQLException;
 /**
  * {@code ConcreteMediator} implements DBMediator interface to coordinate operations
  * on the StudentTable.
+ * @author Kusosvkyi Kyrylo
  */
 public class ConcreteMediator implements DBMediator{
 
@@ -14,13 +15,12 @@ public class ConcreteMediator implements DBMediator{
     /**
      * Notifies the mediator to delete records in StudentTable by department ID.
      * @param id the department ID whose records are to be deleted
+     * @param table the target table provides id.
      */
     @Override
-    public void notifyDelete(int id) {
-        try {
+    public void notifyDelete(int id, Table table) throws SQLException {
+        if (table instanceof DepartmentTable){
             studentTable.deleteByDepartmentId(id);
-        } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
         }
     }
 
@@ -28,14 +28,14 @@ public class ConcreteMediator implements DBMediator{
      * Notifies the mediator to update department ID in StudentTable.
      * @param oldDepartmentId the current department ID to be updated
      * @param newDepartmentId the new department ID
+     * @param table the target table provides id.
      */
     @Override
-    public void notifyUpdate(int oldDepartmentId, int newDepartmentId) {
-        try {
+    public void notifyUpdate(int oldDepartmentId, int newDepartmentId, Table table) throws SQLException {
+        if (table instanceof DepartmentTable){
             studentTable.updateDepartmentID(oldDepartmentId, newDepartmentId);
-        } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
         }
+
     }
 
     /**
@@ -44,13 +44,9 @@ public class ConcreteMediator implements DBMediator{
      * @param table the target table where the foreign key receives.
      */
     @Override
-    public void notifySendKey(int foreignKey, Table table) {
+    public void notifySendKey(int foreignKey, Table table) throws SQLException {
         if (table instanceof StudentTable){
-            try {
-                departmentTable.checkPrimaryKey(foreignKey);
-            } catch (SQLException e) {
-                System.out.println("Error: " + e.getMessage());
-            }
+            departmentTable.checkPrimaryKey(foreignKey);
         }
     }
 

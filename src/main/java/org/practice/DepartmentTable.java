@@ -2,6 +2,11 @@ package org.practice;
 
 import java.sql.*;
 
+/**
+ * Represents the {@code Department} table in the database, providing methods for
+ * checking primary keys, inserting, deleting, and updating department records.
+ * @author Kusosvkyi Kyrylo
+ */
 public class DepartmentTable extends Table {
     /**
      * Constructs a {@code DepartmentTable} with the specified database connection and mediator.
@@ -18,20 +23,18 @@ public class DepartmentTable extends Table {
      * @throws SQLException if a database access error occurs or the query fails.
      */
     public void checkPrimaryKey(int foreignKey) throws SQLException{
-        Integer primaryKey = null;
 
         String request =  "SELECT id FROM department WHERE id = " + foreignKey + ";";
 
         Statement statement = connection.createStatement();
         try (ResultSet resultSet = statement.executeQuery(request)){
             if (resultSet.next()){
-                primaryKey = resultSet.getInt("id");
-                System.out.println(String.format("Right connection: student's department " +
-                        "id: %d, department's id: %d", foreignKey, primaryKey));
+                int primaryKey = resultSet.getInt("id");
+                System.out.printf("Right connection: student's department " +
+                        "id: %d, department's id: %d%n", foreignKey, primaryKey);
+            } else {
+                System.out.println("Error: No department found with id " + foreignKey);
             }
-        } catch (SQLException e){
-            System.out.println("Error: department id of student cannot be " +
-                    "different with real department id");
         }
     }
 
@@ -58,7 +61,7 @@ public class DepartmentTable extends Table {
      * @throws SQLException if a database access error occurs.
      */
     public void delete(int id) throws SQLException {
-        mediator.notifyDelete(id);
+        mediator.notifyDelete(id, this);
         String request = "DELETE FROM department WHERE id = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(request)) {
@@ -76,32 +79,28 @@ public class DepartmentTable extends Table {
      * @throws SQLException if a database access error occurs.
      */
     public void update(Object record, int oldDepartmentId) throws SQLException {
+
         Department department = (Department) record;
         String disableForeignKeyChecks = "ALTER TABLE student DROP CONSTRAINT student_department_id_fkey;";
         String enableForeignKeyChecks = "ALTER TABLE student ADD CONSTRAINT student_department_id_fkey " +
-                "FOREIGN KEY (department_id) REFERENCES department(id);";
+                                        "FOREIGN KEY (department_id) REFERENCES department(id);";
 
-        try {
-            try (PreparedStatement disableStatement = connection.prepareStatement(disableForeignKeyChecks)) {
-                disableStatement.execute();
-            }
+        String request = "UPDATE department SET id = ? WHERE id = ?";
 
-            String request = "UPDATE department SET id = ? WHERE id = ?";
-            try (PreparedStatement statement = connection.prepareStatement(request)) {
-                statement.setInt(1, department.getId());
-                statement.setInt(2, oldDepartmentId);
-                statement.executeUpdate();
-                System.out.println("Updated department id from " + oldDepartmentId + " to " + department.getId());
-            }
+        try (
+                PreparedStatement enableStatement = connection.prepareStatement(enableForeignKeyChecks);
+                PreparedStatement disableStatement = connection.prepareStatement(disableForeignKeyChecks);
+                PreparedStatement statement = connection.prepareStatement(request)
+        ) {
+            disableStatement.execute();
 
-            mediator.notifyUpdate(oldDepartmentId, department.getId());
+            statement.setInt(1, department.getId());
+            statement.setInt(2, oldDepartmentId);
+            statement.executeUpdate();
+            System.out.println("Updated department id from " + oldDepartmentId + " to " + department.getId());
+            mediator.notifyUpdate(oldDepartmentId, department.getId(), this);
 
-        } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
-        } finally {
-            try (PreparedStatement enableStatement = connection.prepareStatement(enableForeignKeyChecks)) {
-                enableStatement.execute();
-            }
+            enableStatement.execute();
         }
     }
 }

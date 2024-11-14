@@ -4,6 +4,7 @@ import java.sql.Connection;
 
 /**
  * Abstract class {@code Table} representing a database table with a connection and mediator for handling data access.
+ * @author Kusosvkyi Kyrylo
  */
 public abstract class Table {
 
